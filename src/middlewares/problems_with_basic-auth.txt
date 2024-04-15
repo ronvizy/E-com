@@ -1,0 +1,88 @@
+Problems with basic Authentication
+1). No encryption, hence not very secure.
+    so the basic authentication uses encoding when the data or the credentials sent from the client
+    and the decoded at the server site, even though the encoding/decoding is more secure than plain text
+    but it is not as secure as encryption like hashing or etc.
+
+2). client needs to store credentials, which can be exposed.
+    the credentials needs to be sent with every secured request so the client needs to store this credentials on
+    respective system or browser or probably mobile application that could be a risk, because if there is a spyware
+    on you browser or in your phone, it can access your data and your credentials and it is very easy using cross-scripting
+    or attacks
+
+3). Easy to crack using Brute-Force attacks.
+
+
+To solve this problem we have better authentication system such as JWT authentication.
+
+
+JWT stands for JSON Web Token
+
+
+1) Encrypted Token
+    there is no encoding and decoding it uses hashing technique
+    the way hashing works is, if I have a passoword, and once I have hashed it, it cannot be hashed back as it does not
+    use encoding or decoding, that is how it is more secure.
+    so all the application we use today uses encryption as the passoword which the users store even they cannot see 
+    as it is Encrypted and it cant be decrypted.
+
+2). Stateless
+    the RESTful is Stateless architecture, and jwt is also loosely coupled, it is made for stateless protocol and widely used
+    for RESTful APIs
+
+3). Easy to Scale
+    As your application grows, and the user base increases the servers need to replicated to handle more request
+    or we are scaling down to different devices in those cases it is more easy to work with JWT.
+
+4). Can be used with Mobile with Web both.
+
+
+this is how JWT looks like
+"afjhdkjhadkjhjsdhfjhl2fdsdfVDDvB9.3i184u82riweknln4nJHKJHHLFhlsflaljhLHLJhfjhsljfhlsjo3eiqa.TDi02elkdanclfioh8rqhefajcnshfuhasdoufhouha"
+
+Structure of JWT
+
+The JWT is seperated with two dots that devide the token in 3 parts
+
+First part
+"afjhdkjhadkjhjsdhfjhl2fdsdfVDDvB9"
+so you can specify the type of token and the algorithm  that you want to use for hashing
+1). Header{
+
+    "alg": "HS256"
+    "typ": "JWT"
+
+}
+
+Second part
+"3i184u82riweknln4nJHKJHHLFhlsflaljhLHLJhfjhsljfhlsjo3eiqa"
+The additional resources a user can access/ or cannot access, so the details of the regarding those authentication are stored
+in the Payload, we should not store credentials or sensetive data in payloads, as payloads can be read without the secret key
+as it is base64-encoded, not encypted
+2). Payload{
+    "sub": "1234567890"
+    "name": "John doe"
+    "admin": "true"
+}
+
+Third part
+JWT's main security relies on its signature for data integrity and authenticity.
+3). Signature{
+    (HMACSHA256(base64UrlEncode(header)) + "." + base64UrlEncode(payload),secret)
+}
+
+
+                                    Working mechanism
+
+    Client                                                                  Server
+    |                                                                          |
+    |                          1. Login with credentials                       | 
+    |------------------------------------------------------------------------->|  2. Creates a JWT token                                                                          
+    |                          3. Sends token to client                        |
+    |<-------------------------------------------------------------------------|
+    |                      4. Sends token in authorization header              |
+    |------------------------------------------------------------------------->|  5. Verifies JWT Token, Access client info
+    |                          6. Sends response to client                     |
+    |<-------------------------------------------------------------------------|
+    |                                                                          |
+
