@@ -1,5 +1,5 @@
 {
-    "swagger" : "2.0",
+    "openapi" : "3.0.0",
     "info": {
         "version" : "1.0.0",
         "description" : "API for E-commerce application",
@@ -7,22 +7,28 @@
 
 
     },
-    "host":"localhost:3000",
-    "securityDefinitions": {
-        "JWT":{
-            "in":"header",
-            "name":"authorization",
-            "type":"apiKey"
+    "servers":[
+        {"url":"http://localhost:3000"}
+    ],
+    "components":{
+        "securitySchemes": {
+            "JWT":{
+                "in":"header",
+                "name":"authorization",
+                "type":"apiKey"
+            }
         }
-    } ,
+    },
     "paths":{
         "/api/users/signup": {
             "post":{
                 "tags":["users"],
                 "summary":"Sign-Up",
                 "description":"To register the user",
-                "parameters":[
+                "requestBody":{
+                    "content":
                     {
+                        "application/json":{
                         "in":"body",
                         "name":"body",
                         "description":"User credentials",
@@ -46,7 +52,8 @@
 
                         }
                     }
-                ],
+                }
+                },
                 "responses":{
                     "200":{
                         "description":"OK"
@@ -59,36 +66,41 @@
                 "tags":["users"],
                 "summary":"Login",
                 "description":"User Login to get token",
-                "parameters":[
-                    {
-                        "in":"body",
-                        "name":"body",
-                        "description":"User credentials",
-                        "schema":{
-                            "type":"object",
-                            "properties":{
-                                "email":{
-                                    "type":"string"
-                                },
-                                "password":{
-                                    "type":"string"
-                                }
-
+                "requestBody":{
+                    
+                        "content":{
+                            "application/json":{
+                                "description":"User credentials",
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "email":{
+                                            "type":"string"
+                                        },
+                                        "password":{
+                                            "type":"string"
+                                        }        
+        
+                                    }
+        
+                                } 
                             }
-
+                            
+                        }
+                        
+                        
+                    },
+                    "responses":{
+                        "200":{
+                            "description":"OK"
+                        },
+                        "400": {
+                            "description":"Incorrect Credentials"
                         }
                     }
-                ],
-                "responses":{
-                    "200":{
-                        "description":"OK"
-                    },
-                    "400": {
-                        "description":"Incorrect Credentials"
-                    }
                 }
-            }
-        },
+                
+            },
         "/api/products": {
             "get":{
                 "tags":["products"],

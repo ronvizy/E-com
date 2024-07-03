@@ -1,3 +1,4 @@
+import { getDB } from "../../config/mongodb.js";
 
 export default class UserModel{
     constructor(name, email, password, type, id){
@@ -5,25 +6,11 @@ export default class UserModel{
         this.email = email;
         this.password = password;
         this.type = type;
-        this.id = id;
+        this._id = id;
     }
     static getAll(){
         return users;
-    }
-
-    static signUp(name, email, password, type){
-        const id= users.length+1;
-        const newUser = {name, email, password, type, id};
-        // console.log(newUser);
-        users.push(newUser);
-        console.log(users);
-        return newUser;
-    }
-
-    static signIn(email, password){
-        const user = users.find((user)=> user.email === email && user.password === password);
-        return user;
-    }
+    }  
 }
 
 let users=[

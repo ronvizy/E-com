@@ -1,32 +1,21 @@
 import UserModel from "../user/user.model.js";
+import { getDB } from "../../config/mongodb.js";
+// import { error } from "winston";
+
 export default class productModel{
 
-    constructor(id, name, desc, price, imageUrl, category, sizes){
-        this.id=id;
+    constructor(name, desc, price, imageUrl, category, sizes, stock, color, id){
         this.name=name;
         this.desc=desc;
         this.price=price;
         this.imageUrl =imageUrl;
         this.category=category;
         this.sizes=sizes;
+        this._id=id;
+        this.stock = stock;
+        this.color = color;
     }
 
-    static get(id){
-        const product = products.find((p)=> p.id == id);
-        // console.log(product);
-        return product;
-    }
-
-    static getALL(){
-        return products;
-    }
-
-    static add(product){
-        const id= products.length+1
-        product= Object.assign({id},product);
-        products.push(product);
-        return products;
-    }
 
     static filterProducts(minPrice, maxPrice, category){
         const filterdProducts = products.filter((p)=>{
@@ -39,16 +28,16 @@ export default class productModel{
     static rateProduct(userId, productId, rating){
         console.log("show "+userId);
         //1. Validate User and Product
-        const users=UserModel.getAll();
+        const users=UserModels.getAll();
         const user=users.find((u)=> userId == u.id);
         console.log("user: "+user);
         if(!user){
-            return 'user not found'
+            throw new Error("User Not Found!");
         }
         //calidate Product
         const product = products.find((p)=> productId == p.id);
         if(!product){
-            return 'product not found'
+            throw new Error('product not found');
         }
 
         if(!product.ratings){

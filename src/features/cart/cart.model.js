@@ -36,18 +36,18 @@ export default class CartModel{
         }
 
 
-        //checking if the item exist in the cart then we will increase the quantity only
+        //checking if the item exist in the cart then increase the quantity only
         const cartItemIndex=cartItems.findIndex( c => c.userId == userId && c.productId == productId)
         console.log("cart item index: ",cartItemIndex);
         if(cartItemIndex>=0){
             cartItems[cartItemIndex].quantity = parseInt(cartItems[cartItemIndex].quantity)+ parseInt(quantity);
             return cartItems[cartItemIndex] ;
         }else{ 
-            const cartItem=new CartModel(
+            const cartItem = new CartModel(
                 productId,
                 userId,
                 quantity,
-                cartItems.id=cartItems.length + 1
+                cartItems.id = cartItems.length + 1
             );
             cartItems.push(cartItem);
             return cartItem;
